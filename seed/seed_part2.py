@@ -41,22 +41,26 @@ def transform_seed_to_location(initial_range, codebook) -> int:
                         SeedRange(intersect[1], entire_range[1]),
                     ]
                     temp.extend(input_ranges)
+                    break
                 # Seed range contained in map
                 elif intersect[0] == seed_range.start and intersect[1] == seed_range.end:
                     temp.append(
                         SeedRange(compute_encoded_seeds(codemap, intersect[0]), compute_encoded_seeds(codemap, intersect[1]))
                     )
+                    break
                 # Seed range bisected
                 elif intersect[0] > seed_range.start:
                     temp.extend([
                         SeedRange(seed_range.start, intersect[0]), 
                         SeedRange(compute_encoded_seeds(codemap, intersect[0]), compute_encoded_seeds(codemap, seed_range.end))
                     ])
+                    break
                 elif intersect[1] < seed_range.end:
                     temp.extend([
                         SeedRange(compute_encoded_seeds(codemap, intersect[1]), compute_encoded_seeds(codemap, seed_range.start)), 
                         SeedRange(seed_range.start, intersect[1])
                     ])
+                    break
 
             if not seed_range_updated:
                 temp.append(seed_range)
